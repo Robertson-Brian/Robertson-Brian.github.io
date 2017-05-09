@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CS 261 examples</title>
+</head>
+
+<body bgcolor="#a0f0C0">
+
+	<center>
+    <h1>Loops, Conditional Statements, Functions, Variables, Parameters, Arrays, Associative Arrays</h1>
+
+	<p id="displayTestArray"></p>
+
+	</center>
+
+	<hr>
+    <li><a href="index.html">Back To Index</a></li>
+
+	<script>
+		var testArray = ["first element", "seccond element", "third element", "fourth element", "fifth element"];
+		
+		text = "<ul>";
+		
+		for(i = 0; i < testArray.length; i++)
+		{
+			text += "<li>" + testArray[i] + "</li>";
+		}
+
+		text += "</ul>";
+		
+		document.getElementById("displayTestArray").innerHTML = text;
+
+	</script>
+
+</body>
+</html>
