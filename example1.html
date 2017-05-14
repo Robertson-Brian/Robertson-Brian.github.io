@@ -11,6 +11,10 @@
 
 	<p id="displayTestArray"></p>
 
+	<input type="text" id="newArrayElement">
+
+	<button onclick="myFunction()">add</button>
+	
 	</center>
 
 	<hr>
@@ -30,6 +34,26 @@
 		
 		document.getElementById("displayTestArray").innerHTML = text;
 
+		function myFunction() 
+		{
+			if(document.getElementById("newArrayElement").value == "lemon")
+			{
+				testArray.push("lemonade");
+			}
+			else
+				testArray.push(document.getElementById("newArrayElement").value);
+		
+			text = "<ul>";
+		
+			for(i = 0; i < testArray.length; i++)
+			{
+				text += "<li>" + testArray[i] + "</li>";
+			}
+
+			text += "</ul>";
+		
+			document.getElementById("displayTestArray").innerHTML = text;		
+		}
 	</script>
 
 </body>
