@@ -2,6 +2,9 @@
 <html>
 <head>
   <title>CS 261 examples</title>
+  
+
+
 </head>
 
 <body bgcolor="#a0f0C0">
@@ -9,10 +12,49 @@
 	<center>
     <h1>Object Creation Functions, Inheritance, Properties, Methods, Instantiation</h1>
 
-    <ul>
+	<p>Creating a JavaScript Object.</p>
 
-    </ul> 
+	<p id="obj001"></p>
+ 	<p id="style001"></p>
+	<p id="sqft001"></p>
+	<p id="color001"></p>
+	<p id="displayAll001"></p>
+	<p id="displayAllTest001"></p>
+	
+
 	</center>
+
+	<script>
+		var house = {type:"house001", 
+					 style:"ranch", 
+					 SqFt:"2300", 
+					 color:"grey", 
+					 trim:"blue", 
+					 displayAll: function()
+					 {
+						return this.type + ", " + 
+							   this.style + ", " + 
+							   this.SqFt + ", " + 
+							   this.color + ", " + 
+							   this.trim;
+					 }
+					};
+		document.getElementById("obj001").innerHTML = house.type;
+		
+		document.getElementById("style001").innerHTML =
+		house.type + " is  a " + house.style + " style house.";
+
+		document.getElementById("sqft001").innerHTML =
+		house.type + " is  a " + house.SqFt + " square feet.";
+		
+		document.getElementById("color001").innerHTML =
+		house.type + " is " + house.color + " with " + house.trim + " trim.";
+
+		document.getElementById("displayAll001").innerHTML = house.displayAll();
+
+		document.getElementById("displayAll001").innerHTML = house.displayAll;
+
+	</script>
 
 	<hr>
     <li><a href="index.html">Back To Index</a></li>
