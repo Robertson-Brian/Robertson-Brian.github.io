@@ -7,13 +7,33 @@
 <body bgcolor="#a0f0C0">
 
 	<center>
-    <h1>Object Creation Functions, Inheritance, Properties, Methods, Instantiation</h1>
+    <h1>Using XMLHTTP Request to Consume a JSON Web Service</h1>
 
-    <ul>
+	<div>
+	<button type="button" onclick="loadXML()">Get data from server</button>
+	    <div id="output"></div>
+	</div>
 
-    </ul> 
+
+
 	</center>
 
+	<script>
+	function loadXML() 
+	{
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() 
+	  {
+		if (this.readyState == 4 && this.status == 200) 
+		{
+		  document.getElementById("output").innerHTML = this.responseText;
+		}
+	  };
+	  xhttp.open("GET", "xmlhttpTest.txt", true);
+	  xhttp.send();
+	}
+	</script>
+	
 	<hr>
     <li><a href="index.html">Back To Index</a></li>
 
