@@ -9,29 +9,70 @@
 	<center>
     <h1>Using XMLHTTP Request to Consume a JSON Web Service</h1>
 
-	<div>
-	<button type="button" onclick="loadXML()">Get data from server</button>
-	    <div id="output"></div>
-	</div>
+	<button type="button" onclick="loadXML()">Get data from fake server</button>
+	<div id="output1"></div><br>
 
 
+	<button type="button" onclick="loadDoc()">Get data from http://ip.jsontest.com/ server</button>
+	<div id="output2"></div><br>
 
+	<button type="button" onclick="loadWeatherDoc()">Get data from api.openweathermap.org/data/2.5/weather server</button>
+	<div id="output3"></div><br>
+	<div id="output4"></div><br>
+	
 	</center>
 
 	<script>
-	function loadXML() 
-	{
-	  var xhttp = new XMLHttpRequest();
-	  xhttp.onreadystatechange = function() 
-	  {
-		if (this.readyState == 4 && this.status == 200) 
+		function loadXML() 
 		{
-		  document.getElementById("output").innerHTML = this.responseText;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() 
+			{
+				if (this.readyState == 4 && this.status == 200) 
+					document.getElementById("output1").innerHTML = this.responseText;
+				else
+					document.getElementById("output1").innerHTML = "XMLHTTP ERROR";					
+			};
+			xhttp.open("GET", "xmlhttpTest.txt", true);
+			xhttp.send();
 		}
-	  };
-	  xhttp.open("GET", "xmlhttpTest.txt", true);
-	  xhttp.send();
-	}
+		
+		function loadDoc() 
+		{
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() 
+			{
+				if (this.readyState == 4 && this.status == 200) 
+					document.getElementById("output2").innerHTML = this.responseText;
+				else
+					document.getElementById("output2").innerHTML = "XMLHTTP ERROR";					
+			};
+			xhttp.open("GET", "http://ip.jsontest.com/", true);
+			xhttp.send();
+		}
+
+		function loadWeatherDoc() 
+		{
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() 
+			{
+				if (this.readyState == 4 && this.status == 200)
+				{ 
+					document.getElementById("output3").innerHTML = this.responseText;
+				
+					obj = JSON.parse(this.responseText);
+					document.getElementById("output4").innerHTML = "latitude " + obj.coord.lat + ", " + 
+														   "longitude " + obj.coord.lon + ", " + 
+														   "temperature " + obj.main.temp + ", " + 
+														   "hymidity " + obj.main.humidity;
+				}
+				else
+					document.getElementById("output3").innerHTML = "XMLHTTP ERROR";
+
+			};
+			xhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?id=524901&APPID=510cdd661e175603ed180d5b72899fe2", true);
+			xhttp.send();
+		}
 	</script>
 	
 	<hr>

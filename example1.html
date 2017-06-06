@@ -13,7 +13,7 @@
 
 	<input type="text" id="newArrayElement">
 
-	<button onclick="myFunction()">add</button>
+	<button onclick=myFunction(document.getElementById("newArrayElement").value)>add</button>
 	
 	<br><br><br>
 	
@@ -22,7 +22,8 @@
 
 	<p id="demo"></p>
 	
-	
+	<p id="showAll"></p>
+
 	
 	
 	</center>
@@ -31,39 +32,57 @@
     <li><a href="index.html">Back To Index</a></li>
 
 	<script>
-		var testArray = ["first element", "seccond element", "third element", "fourth element", "fifth element"];
+		//var testArray = ["first element", "seccond element", "third element", "fourth element", "fifth element"];
+		
+		var count = 0;
 		
 		text = "<ul>";
 		
-		for(i = 0; i < testArray.length; i++)
-		{
-			text += "<li>" + testArray[i] + "</li>";
-		}
+		//for(i = 0; i < testArray.length; i++)
+		//{
+		//	text += "<li>" + testArray[i] + "</li>";
+		//}
 
-		text += "</ul>";
+		//text += "</ul>";
 		
-		document.getElementById("displayTestArray").innerHTML = text;
+		//document.getElementById("displayTestArray").innerHTML = text;
 
-		function myFunction() 
-		{
-			if(document.getElementById("newArrayElement").value == "lemon")
+		var testAssociativeArray = { "one": "first element", "two": "seccond element", "three": "third element"};
+
+			for(var i in testAssociativeArray)
 			{
-				testArray.push("lemonade");
+			     //document.write(i + " = " + array[i] + '<br>');
+			     text += "<li>" + testAssociativeArray[i] + "</li>";
+			}
+			
+		text += "</ul>";
+		document.getElementById("displayTestArray").innerHTML = text;
+		
+		function myFunction(input) 
+		{
+			if(input == "lemon")
+			{
+				//testAssociativeArray.push("lemonade");
 			}
 			else
-				testArray.push(document.getElementById("newArrayElement").value);
-		
+			{
+				//testAssociativeArray.push(input);
+				testAssociativeArray[count++] = input;
+			}
+			
 			text = "<ul>";
 		
-			for(i = 0; i < testArray.length; i++)
+			for(var i in testAssociativeArray)
 			{
-				text += "<li>" + testArray[i] + "</li>";
+				text += "<li>" + testAssociativeArray[i] + "</li>";
 			}
 
 			text += "</ul>";
 		
-			document.getElementById("displayTestArray").innerHTML = text;		
+			document.getElementById("displayTestArray").innerHTML = text;	
 		}
+		
+		
 	</script>
 
 </body>

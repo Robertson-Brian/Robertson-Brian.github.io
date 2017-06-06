@@ -7,13 +7,65 @@
 <body bgcolor="#a0f0C0">
 
 	<center>
-    <h1>Object Creation Functions, Inheritance, Properties, Methods, Instantiation</h1>
+    <h1>Local Storage API, Storing and Retrieving Simple Data, Arrays, Associative Arrays, and Objects</h1>
 
-    <ul>
-
-    </ul> 
+	First Name <input type="text" id="item001"><br>
+	Last Name <input type="text" id="item002"><br><br>
+	
+	<button onclick="saveName()">Save name to local storage</button><br>
+	<p>Manually refresh browser now.<p>
+	<button onclick="getSavedName()">Get Saved name from local storage</button><br><br>
+			
+	<div id="result001"></div>
+	<div id="result002"></div><br>
+	
+	<p>According to W3Schools <a href="https://www.w3schools.com/js/js_arrays.asp">"JavaScript does not support arrays with named indexes."</a><p>
+	
+	<p>You can however create an approximation of an associative array with a javascript object.<p>
+	
+	<p>By doing this "var array = { "one": 1, "two": 2, "three": 3 };" you create an object that you can treat like an associative array. 
+	
 	</center>
 
+
+	<script>
+
+	function saveName() 
+	{
+		if (typeof(Storage) !== "undefined") {
+		    // Store
+    		    localStorage.setItem("firstname", document.getElementById("item001").value);
+		    localStorage.setItem("lastname", document.getElementById("item002").value);
+		} else {
+		    document.getElementById("result001").innerHTML = "Sorry, your browser does not support Web Storage...";
+		}
+	}
+	
+	function getSavedName() 
+	{
+		if (typeof(Storage) !== "undefined") {
+		    // Retrieve
+		    document.getElementById("result001").innerHTML = localStorage.getItem("firstname");
+		    document.getElementById("result002").innerHTML = localStorage.getItem("lastname");
+		} else {
+		    document.getElementById("result001").innerHTML = "Sorry, your browser does not support Web Storage...";
+		}
+	}
+		
+	var array = { "one": 1, "two": 2, "three": 3 };
+	
+	</script>
+	
+	<center>
+		<script>
+			for(var i in array)
+			{
+			     document.write(i + " = " + array[i] + '<br>');
+			}
+		</script>
+	</center>
+	
+	
 	<hr>
     <li><a href="index.html">Back To Index</a></li>
 

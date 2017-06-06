@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CS 261 examples</title>
+</head>
+
+<body bgcolor="#a0f0C0">
+
+	<center>
+    <h1>DOM Manipulation Using createElement, appendChild, insertBefore, removeChild, etc.</h1>
+
+    <p>Here's a button that makes more buttons, I call it the meta button.<p>
+    
+    <button onclick="meta()">Meta Button</button>
+	
+	<div id="outer">
+	<div id="mark"></div><br>	
+	</div>
+	
+    <button onclick="remove()">Remove Button</button>
+
+	<script>
+
+	function meta() 
+	{       
+	    var button = document.createElement('button');
+	    button.id = "btn";
+  		button.innerHTML = 'Meta Button';
+  		button.onclick = meta;
+
+      	document.getElementById('mark').appendChild(button);
+	};
+
+	function remove() 
+	{
+		var parent = document.getElementById("mark");
+		var child = document.getElementById("btn");
+		parent.removeChild(child);
+	}
+	
+	</script>
+	   	
+	</center>
+	
+	<hr>
+    <li><a href="index.html">Back To Index</a></li>
+
+</body>
+</html>
