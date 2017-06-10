@@ -2,6 +2,85 @@
 <html>
 <head>
   <title>CS 261 examples</title>
+  
+<style>
+#container 
+{
+  width: 400px;
+  height: 400px;
+  position: relative;
+  background: yellow;
+}
+#animate 
+{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-color: red;
+}
+</style>
+
+<script>
+function myMove() 
+{
+	var elem = document.getElementById("animate");   
+	var pos = 0;
+  
+	let start = Date.now();
+  
+	var id = setInterval(frame, 30);
+	function frame() 
+	{
+		let timePassed = Date.now() - start;
+
+		if (timePassed >= 1500) 
+		{
+			clearInterval(timer);
+			return;
+		}
+		draw(timePassed); 
+	}
+	function draw(timePassed) 
+	{
+		elem.style.top = timePassed / 3 + 'px';
+		elem.style.left = timePassed / 5 + 'px';
+	}
+}
+function myMove2() 
+{
+	var elem = document.getElementById("animate");   
+	var pos = 0;
+
+	let start = performance.now();
+
+	requestAnimationFrame(function animate(time) 
+	{
+		var timeFraction = (time - start) / 2000; //duration;
+		
+		if (timeFraction > 1) 
+			timeFraction = 1;
+
+		var progress = timeFraction / 2;
+		
+		var aaa = 1 - Math.sin(Math.acos(timeFraction));
+
+		elem.style.top = progress * 100 + '%';
+		elem.style.left = aaa * 100+ '%';
+
+		if (timeFraction < 1) 
+		{
+			requestAnimationFrame(animate);
+		}
+	});
+}
+
+function draw(progress)
+{
+	  train.style.left = timePassed / 5 + 'px';
+}
+
+</script>
+
 </head>
 
 <body bgcolor="#a0f0C0">
@@ -9,9 +88,15 @@
 	<center>
     <h1>Standard JavaScript Animation and Transition Events</h1>
 
-    <ul>
+<p>
+<button onclick="myMove()">Click Me</button>
+<button onclick="myMove2()">Click Me 2</button>
+</p> 
 
-    </ul> 
+<div id ="container">
+<div id ="animate"></div>
+</div>
+
 	</center>
 
 	<hr>

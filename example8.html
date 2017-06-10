@@ -2,6 +2,40 @@
 <html>
 <head>
   <title>CS 261 examples</title>
+  
+<style>
+div#box1 
+{
+	background: #9DCEFF;
+	width: 400px;
+	height: 200px;
+	position: relative;
+	animation: mymove 4s infinite;
+
+}
+
+@keyframes mymove {
+    from {left: 0px;}
+    to {left: 100px;}
+}
+
+</style>
+<script>
+function changeBG(el,clr){
+	var elem = document.getElementById(el);
+	elem.style.transition = "background 1.0s linear 0s";
+	elem.style.background = clr;
+}
+function changeSZ(el,w,h){
+	var elem = document.getElementById(el);
+	elem.style.transition = "width 2s ease 0s, height .5s linear 0s";
+	elem.style.width = w + "px";
+//	elem.style.transition = "height 4s linear 0s";
+	elem.style.height = h + "px";
+}
+
+</script>
+
 </head>
 
 <body bgcolor="#a0f0C0">
@@ -9,9 +43,16 @@
 	<center>
     <h1>Creating CSS3 Transitions and Animations in CSS and triggering them with JavaScript</h1>
 
-    <ul>
-
-    </ul> 
+<p>change color</p>
+<button onclick="changeBG('box1','#F0F')">Magenta</button>
+<button onclick="changeBG('box1','#0C0')">Green</button>
+<button onclick="changeBG('box1','#4286f4')">blue</button>
+<button onclick="changeBG('box1','#9DCEFF')">Origninal</button>
+<div id="box1"></div>
+<p>change size</p>
+<button onclick="changeSZ('box1','42','42')">small</button>
+<button onclick="changeSZ('box1','400','200')">medium</button>
+<button onclick="changeSZ('box1','90001','600')">large</button><br>
 	</center>
 
 	<hr>

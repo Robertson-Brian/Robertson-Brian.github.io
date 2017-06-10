@@ -9,11 +9,68 @@
 	<center>
     <h1>Manipulating CSS Class Properties Using JavaScript</h1>
 
-    <ul>
+    <p id="etxt">Example Text.</p>
 
-    </ul> 
+    <button type="button" 
+	onclick=change()>Click to change example text</button>
+
 	</center>
 
+	<script>
+
+	var count = 0;
+	var size = 18;
+	function change() 
+	{
+		count++;
+		
+		if(count%7 == 1)
+			document.getElementById('etxt').style.color = 'Red';       
+			
+		if(count%7 == 2)
+			document.getElementById('etxt').style.color = 'Lime';
+			
+		if(count%7 == 3)
+			document.getElementById('etxt').style.color = 'Blue';
+			
+		if(count%7 == 4)
+			document.getElementById('etxt').style.color = 'Black';
+			
+		if(count%7 == 5)
+			document.getElementById('etxt').style.color = 'Yellow';
+			
+		if(count%7 == 6)
+			document.getElementById('etxt').style.color = 'Fuchsia';
+			
+		if(count%16 < 8)
+		{
+			size+=5;
+			document.getElementById("etxt").style.fontSize =  size + "px";
+		}
+		else
+		{
+			size-=4;
+			document.getElementById("etxt").style.fontSize = size + "px";
+		}
+		
+		if(count%5 == 1)
+			document.getElementById("etxt").style.fontStyle = "italic";
+			
+		if(count%5 == 2)
+			document.getElementById("etxt").style.fontStyle = "normal";
+			
+		if(count%5 == 3)
+			document.getElementById("etxt").style.fontStyle = "oblique";
+		
+		if(count%5 == 4)
+			document.getElementById("etxt").style.fontStyle = "normal";
+
+
+	};
+	
+	
+	</script>
+	
 	<hr>
     <li><a href="index.html">Back To Index</a></li>
 
