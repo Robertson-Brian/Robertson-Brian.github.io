@@ -67,7 +67,7 @@
 														   "hymidity " + obj.main.humidity;
 				}
 				else
-					document.getElementById("output3").innerHTML = "XMLHTTP ERROR";
+					document.getElementById("output3").innerHTML = "XMLHTTP ERROR" + ", status = " + this.status + ", readyState = " + this.readyState;
 
 			};
 			xhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?id=524901&APPID=510cdd661e175603ed180d5b72899fe2", true);
