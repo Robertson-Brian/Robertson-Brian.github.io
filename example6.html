@@ -11,13 +11,14 @@
 
     <p>Here's a button that makes more buttons, I call it the meta button.<p>
     
-    <button onclick="meta()">Meta Button</button>
+    <button id="mtabnt" onclick="meta()">Meta Button</button>
 	
 	<div id="outer">
 	<div id="mark"></div><br>	
 	</div>
 	
-    <button onclick="remove()">Remove Button</button>
+    <button onclick="remove()">Remove Button</button><br>
+    <button onclick="ibmb()">Insert Before before meta button</button>
 
 	<script>
 
@@ -36,6 +37,16 @@
 		var parent = document.getElementById("mark");
 		var child = document.getElementById("btn");
 		parent.removeChild(child);
+	}
+	
+	function ibmb() 
+	{
+		var parent = document.getElementById('mtabnt');
+
+		var newptag = document.createElement('p');
+		newptag.innerHTML = 'Before';
+
+		parent.parentNode.insertBefore(newptag, parent);
 	}
 	
 	</script>

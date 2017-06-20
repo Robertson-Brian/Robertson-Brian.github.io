@@ -2,13 +2,90 @@
 <html>
 <head>
   <title>CS 261 examples</title>
-  
+
+	<style>
+		div#skewY {
+			width: 500px;
+			height: 100px;
+			background-color: yellow;
+			border: 1px solid black;
+		}
+
+		div#skewY.postskewy {
+			-ms-transform: skewY(20deg); /* IE 9 */
+			-webkit-transform: skewY(20deg); /* Safari */
+			transform: skewY(20deg); /* Standard syntax */
+		}
+		
+		div#rotateX {
+			width: 200px;
+			height: 450px;
+			background-color: red;
+			border: 6px solid black;
+		}
+
+		div#rotateX.postrotatex {
+			-webkit-transform: rotateX(55deg); /* Safari */
+			transform: rotateX(55deg); /* Standard syntax */
+		}
+		
+		div#matrix {
+			width: 175px;
+			height: 100px;
+			background-color: blue;
+			border: 12px solid black;
+		}
+
+		div#matrix.postmatrix {
+			-ms-transform: matrix(1.5, -0.3, 0, 1, 0, 0); /* IE 9 */
+			-webkit-transform: matrix(1, -0.3, 0, 1, 0, 0); /* Safari */
+			transform: matrix(2, .1, -.3, .7, 499, 0); /* Standard syntax */
+		}
+		
+	</style>
+
 </head>
 
 <body bgcolor="#a0f0C0">
 
 	<center>
     <h1>CSS3 Transitions, Transforms, and Animations</h1>
+
+	<div id="rotateX">
+	Pre rotateX()
+	</div>
+	
+	<br><br><br><br>
+	
+	<div id="rotateX" class="postrotatex">
+	Post rotateX()
+	</div>
+
+	<br><br><br><br>
+
+	<div id="skewY">
+	Pre skewY()
+	</div>
+	
+	<br><br><br><br>
+	
+	<div id="skewY" class="postskewy">
+	Post skewY()
+	</div>
+
+	<br><br><br><br>
+	
+	<div id="matrix">
+	Pre matrix()
+	</div>
+	
+	<br><br><br><br>
+	
+	<div id="matrix" class="postmatrix">
+	Post matrix()
+	</div>
+
+	<br><br><br><br>
 
 	</center>
 

@@ -23,11 +23,8 @@
 	
 	<p>You can however create an approximation of an associative array with a javascript object.<p>
 	
-	<p>By doing this "var array = { "one": 1, "two": 2, "three": 3 };" you create an object that you can treat like an associative array. 
+	<p>By doing this "var array = { "one": 1, "two": 2, "three": 3 };" you create an object that you can treat like an associative array.</p>
 	
-	</center>
-
-
 	<script>
 
 	function saveName() 
@@ -53,16 +50,34 @@
 	}
 		
 	var array = { "one": 1, "two": 2, "three": 3 };
+	var array2 = ["test", "one", "two"];
+	
+	for(var i in array)
+	{
+	     document.write(i + " = " + array[i] + '<br>');
+	}
 	
 	</script>
-	
-	<center>
-		<script>
-			for(var i in array)
-			{
-			     document.write(i + " = " + array[i] + '<br>');
-			}
-		</script>
+		
+	<p>Saving regular array (var array2 = ["test", "one", "two"];) and associative array (var array = { "one": 1, "two": 2, "three": 3 };) to local storage.</p>
+
+	<script>
+		localStorage.setItem("arrayls", JSON.stringify(array2));
+		localStorage.setItem("array2ls", JSON.stringify(array));
+	</script>
+
+	<p>Access and display stored arrays.</p>
+
+
+		<p id="demoarrayls"></p>
+		<p id="demoarray2ls"></p>
+
+	<script>
+		document.getElementById("demoarrayls").innerHTML = localStorage.getItem("arrayls");
+		document.getElementById("demoarray2ls").innerHTML = localStorage.getItem("array2ls");
+	</script>
+
+		
 	</center>
 	
 	
