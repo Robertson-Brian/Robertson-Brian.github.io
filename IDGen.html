@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CS 261 examples</title>
+<style>
+div#whatsMyIPBody {
+    height: 600px;
+    width: 400px;
+    background-color: #a03000;
+}
+</style>
+</head>
+
+<body bgcolor="#a0f0C0" onload="loadDoc()">
+
+	<center>
+
+	<div id="whatsMyIPBody">
+
+		<br><br><br>
+		
+		<div id="output2"></div><br>
+		<img id="output2.5" alt="photoID"><br>
+
+		<button type="button" onclick="loadDoc()">New ID</button>
+
+	</div>
+	
+	</center>
+
+	<script>		
+		function loadDoc() 
+		{
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.onreadystatechange = function() 
+			{ 
+				if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+				{
+					obj = JSON.parse(this.responseText);
+					document.getElementById("output2").innerHTML = "Name: " + obj.name + "<br/>" + 
+																	 "Surname: " + obj.surname + "<br/>" + 
+																	 "Gender: " + obj.gender + "<br/>" + 
+																	 "Region: " + obj.region + "<br/>" +
+																	 "Age: " + obj.age + "<br/>" +
+																	 "Title: " + obj.title + "<br/>" +
+																	 "Phone: " + obj.phone + "<br/>" +
+																	 "Birthday: " + obj.birthday.mdy + "<br/>" +
+																	 "Email: " + obj.email + "<br/>" +
+																	 "Password: " + obj.password + "<br/>" +
+																	 "Credit Card num: " + obj.credit_card.number + "<br/>" +
+																	 "Credit Card expiration: " + obj.credit_card.expiration + "<br/>" +
+																	 "Credit Card security num: " + obj.credit_card.security + "<br/>" +
+																	 "Pin: " + obj.region;	
+																	 
+					document.getElementById("output2.5").src = obj.photo;				
+				}
+			}
+			xmlHttp.open("GET", "http://uinames.com/api/?ext", true); // true for asynchronous 
+			xmlHttp.send(null);
+    	}
+	</script>
+	
+	<hr>
+    <li><a href="index.html">Back To Index</a></li>
+
+</body>
+</html>
+

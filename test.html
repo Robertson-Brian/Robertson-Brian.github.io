@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Asteroids</title>
+</head>
+
+<body bgcolor="#a0f0C0" onload="startGame()">
+
+	<center>
+
+	<canvas id="gameCanvas" width=800 height=500 />
+
+	</center>
+
+<script>
+var ship;
+var background;
+var bullet = new Array();
+var asteroid = new Array();
+
+var xpos;
+var ypos;
+var angleout;
+
+var score;
+var bNum = 0;
+
+var a1x = Math.floor(Math.random() * 800);
+var a1y = Math.floor(Math.random() * 500);
+var a1x1 = (Math.random() * 6)-3;
+var a1y1 = (Math.random() * 6)-3;
+var a1r = (Math.random() * 6)-3;
+
+var a2x = Math.floor(Math.random() * 800);
+var a2y = Math.floor(Math.random() * 500);
+var a2x1 = (Math.random() * 6)-3;
+var a2y1 = (Math.random() * 6)-3;
+var a2r = (Math.random() * 6)-3;
+
+var a3x = Math.floor(Math.random() * 800);
+var a3y = Math.floor(Math.random() * 500);
+var a3r = (Math.random() * 6)-3;
+var a3x1 = (Math.random() * 6)-3;
+var a3y1 = (Math.random() * 6)-3;
+				
+function startGame() {
+    ship = new component(30, 30, "rocket2.png", 225, 225, "ship", 0, 1);
+    background = new component(1920, 1024, "space2.jpg", -10, -10, "background", 0, 1);
+    xpos = new component("15px", "Consolas", "red", 5, 10, "text", 0, 1);
+    ypos = new component("15px", "Consolas", "red", 5, 22, "text", 0, 1);
+    angleout = new component("15px", "Consolas", "red", 5, 34, "text", 0, 1);
+    bnum = new component("15px", "Consolas", "red", 5, 46, "text", 0, 1);
+	
+	asteroid[0] = new component(25, 25, "sAsteroid.png", a1x, a1y, "asteroid", 0, 1);
+	asteroid[1] = new component(50, 50, "mAsteroid.png", a2x, a2y, "asteroid", 0, 1);
+	asteroid[2] = new component(100, 100, "lAsteroid.png", a3x, a3y, "asteroid", 0, 1);
+					
+    myGameArea.start();
+}
+
+var myGameArea = {
+    canvas : document.getElementById("gameCanvas"),
+    start : function() {
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        window.addEventListener('keydown', function (e) {
+            e.preventDefault();
+            myGameArea.keys = (myGameArea.keys || []);
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
+        })
+        window.addEventListener('keyup', function (e) {
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
+        })
+    },
+    stop : function() {
+        clearInterval(this.interval);
+    },    
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(width, height, color, x, y, type, angle, alive) 
+{
+	if (type == "ship" || type == "background" || type == "bullet" || type == "asteroid") 
+	{
+        this.image = new Image();
+        this.image.src = color;
+    }
+    
+    this.number;
+    this.type = type;
+    this.alive = alive;
+    this.width = width;
+    this.height = height;
+    this.speed = 0;
+    this.angle = angle;
+    this.moveAngle = 0;
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+        //ctx = myGameArea.context;
+        //ctx.save();
+        //ctx.translate(this.x, this.y);
+        //ctx.rotate(this.angle);
+        //ctx.fillStyle = color;
+        //ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
+        //ctx.restore();    
+        if(this.alive == 1)
+		{
+			ctx = myGameArea.context;
+			if (this.type == "text") 
+			{
+				ctx.font = this.width + " " + this.height;
+				ctx.fillStyle = color;
+				ctx.fillText(this.text, this.x, this.y);
+			}
+			if (this.type == "ship") 
+			{
+				ctx.save();
+					  
+				ctx.translate(this.x, this.y);
+		  
+				ctx.rotate(this.angle);
+				
+				ctx.drawImage(this.image, 
+					-15, 
+					-15,
+					this.width, this.height);
+
+				ctx.restore();
+			}
+			if (this.type == "bullet") 
+			{
+				ctx.drawImage(this.image, 
+					this.x, 
+					this.y,
+					this.width, this.height);
+			}
+			if (this.type == "asteroid") 
+			{
+				ctx.drawImage(this.image, 
+					this.x, 
+					this.y,
+					this.width, this.height);
+			}
+			if (this.type == "background") 
+			{
+				ctx.drawImage(this.image, 
+					this.x, 
+					this.y,
+					this.width, this.height);
+			}
+	//		if (this.type != "background" && type != "ship")
+	//        {
+	//			ctx.save();
+	//			ctx.translate(this.x, this.y);
+	//			ctx.rotate(this.angle);
+	//			ctx.fillStyle = color;
+	//			ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
+	//			ctx.restore();   
+	//        }
+		}
+    }
+    this.newPos = function() 
+    {	
+		if(this.alive == 1)
+		{
+			this.angle += this.moveAngle * Math.PI / 180;
+			this.x += this.speed * Math.sin(this.angle);
+			this.y -= this.speed * Math.cos(this.angle);
+			
+			if( this.type == "bullet")
+			{
+				this.x += 6 * Math.sin(this.angle);
+				this.y -= 6 * Math.cos(this.angle);
+			}
+			if( this.type == "asteroid")
+			{
+				if( this == asteroid[0])
+				{
+ 					this.x += a1x1 + Math.floor(Math.random() * 6) - 3;
+					this.y -= a1y1 + Math.floor(Math.random() * 6) - 3;
+				}
+				
+				if( this == asteroid[1])
+				{
+					this.x += a2x1 + Math.floor(Math.random() * 6) - 3.5;
+					this.y -= a2y1 + Math.floor(Math.random() * 6) - 3.5;
+				}
+				
+				if( this == asteroid[2])
+				{
+					this.x += a3x1 + Math.floor(Math.random() * 6) - 2.5;
+					this.y -= a3y1 + Math.floor(Math.random() * 6) - 2.5;				
+				}
+			}
+		}
+    }
+}
+
+	window.addEventListener("keydown", function(e){
+		switch(e.keyCode)
+		{
+			case 37: // left arrow
+				ship.moveAngle = -3;
+				break;
+			case 38: // up arrow
+				ship.speed= 3;
+				break;
+			case 39: // right arrow
+				ship.moveAngle = 3;
+				break;
+			case 40: // down arrow
+				ship.speed= -3;
+				break;
+			case 32: // space bar
+				bullet[bNum] = new component(4, 4, "bullet.png", ship.x-2, ship.y-2, "bullet", ship.angle, 1);
+				bNum = bNum + 1;
+				break;
+		}
+	}, false);
+
+	window.addEventListener("keyup", function(e){
+		switch(e.keyCode)
+		{
+			case 37: // left arrow
+				ship.moveAngle = 0;
+				break;
+			case 38: // up arrow
+				ship.speed= 0;
+				break;
+			case 39: // right arrow
+				ship.moveAngle = 0;
+				break;
+			case 40: // down arrow
+				ship.speed= 0;
+				break;				
+			case 65: // a
+				asteroid[0] = new component(25, 25, "sAsteroid.png", a1x, a1y, "asteroid", 0, 1);
+				asteroid[1] = new component(50, 50, "mAsteroid.png", a2x, a2y, "asteroid", 0, 1);
+				asteroid[2] = new component(100, 100, "lAsteroid.png", a3x, a3y, "asteroid", 0, 1);
+				break;	
+			case 80: // key P pauses the game
+				//Game.togglePause();
+				break;		
+		}
+	}, false);
+	
+	
+function updateGameArea() {
+    myGameArea.clear();
+    
+    if (bNum > 5)
+    {
+		bNum = 0;
+	}
+    
+    //if (myGameArea.keys && myGameArea.keys[37]) {ship.moveAngle = -2;}
+    //if (myGameArea.keys && myGameArea.keys[39]) {ship.moveAngle = 2;}
+    //if (myGameArea.keys && myGameArea.keys[38]) {ship.speed= 2;}
+    //if (myGameArea.keys && myGameArea.keys[40]) {ship.speed= -2;}
+    //if (myGameArea.keys && myGameArea.keys[32]) 
+    //{
+	//	bullet[bNum] = new component(30, 30, "lAsteroid.png", ship.x, ship.y, "bullet", ship.angle);
+	//	bNum = bNum + 1;
+	//}
+    
+    background.newPos();
+    background.update();
+    
+    ship.newPos();
+    ship.update();
+    
+
+    
+    xpos.text="x pos: " + ship.x;
+    xpos.update();
+    
+    ypos.text="y pos: " + ship.y;
+    ypos.update();
+    
+    angleout.text="angle: " + ship.angle;
+    angleout.update();
+
+    bnum.text="bnum: " + bNum;
+    bnum.update();
+    
+    if(ship.x < 0)
+		ship.x = 800;
+		
+	if(ship.x > 800)
+		ship.x = 0;
+		
+	if(ship.y < 0)
+		ship.y = 500;
+		
+	if(ship.y > 500)
+		ship.y = 0;
+		
+    for (i = 0; i < asteroid.length; i++)
+    { 
+		asteroid[i].newPos();
+		asteroid[i].update();
+		
+		if(asteroid[i].x < 0)
+		asteroid[i].x = 800;
+		
+		if(asteroid[i].x > 800)
+		asteroid[i].x = 0;
+		
+		if(asteroid[i].y < 0)
+		asteroid[i].y = 500;
+		
+		if(asteroid[i].y > 500)
+		asteroid[i].y = 0;
+	}
+	
+    for (i = 0; i < bullet.length; i++)
+    { 
+		bullet[i].newPos();
+		bullet[i].update();
+		
+		if(bullet[i].x < 0)
+		bullet[i].x = 800;
+		
+		if(bullet[i].x > 800)
+		bullet[i].x = 0;
+		
+		if(bullet[i].y < 0)
+		bullet[i].y = 500;
+		
+		if(bullet[i].y > 500)
+		bullet[i].y = 0;
+	}
+	
+    for (i = 0; i < bullet.length; i++)
+    {
+		if(bullet[i].alive == 1 && asteroid[0].alive == 1 &&
+		   bullet[i].y > (asteroid[0].y - 0) && bullet[i].y < (asteroid[0].y + 30) &&
+		   bullet[i].x > (asteroid[0].x - 0) && bullet[i].x < (asteroid[0].x + 30))
+		{   
+			bullet[i].alive = 0;
+			asteroid[0].alive = 0;	
+		}
+
+		if(bullet[i].alive == 1 && asteroid[1].alive == 1 &&
+		   bullet[i].y > (asteroid[1].y - 0) && bullet[i].y < (asteroid[1].y + 50) &&
+		   bullet[i].x > (asteroid[1].x - 0) && bullet[i].x < (asteroid[1].x + 50))   
+		{
+			bullet[i].alive = 0;
+			asteroid[1].alive = 0;
+		}
+	
+		if(bullet[i].alive == 1 && asteroid[2].alive == 1 &&
+		   bullet[i].y > (asteroid[2].y - 0) && bullet[i].y < (asteroid[2].y + 90) &&
+		   bullet[i].x > (asteroid[2].x - 0) && bullet[i].x < (asteroid[2].x + 90))   
+		{
+			bullet[i].alive = 0;				
+			asteroid[2].alive = 0;
+		}
+	}
+	
+		if(ship.alive == 1 && asteroid[0].alive == 1 &&
+		   ship.y > (asteroid[0].y - 0) && ship.y < (asteroid[0].y + 30) &&
+		   ship.x > (asteroid[0].x - 0) && ship.x < (asteroid[0].x + 30))
+		{   
+			ship.alive = 0;
+			asteroid[0].alive = 0;	
+		}
+
+		if(ship.alive == 1 && asteroid[1].alive == 1 &&
+		   ship.y > (asteroid[1].y - 0) && ship.y < (asteroid[1].y + 50) &&
+		   ship.x > (asteroid[1].x - 0) && ship.x < (asteroid[1].x + 50))   
+		{
+			ship.alive = 0;
+			asteroid[1].alive = 0;
+		}
+	
+		if(ship.alive == 1 && asteroid[2].alive == 1 &&
+		   ship.y > (asteroid[2].y - 0) && ship.y < (asteroid[2].y + 90) &&
+		   ship.x > (asteroid[2].x - 0) && ship.x < (asteroid[2].x + 90))   
+		{
+			ship.alive = 0;				
+			asteroid[2].alive = 0;
+		}
+	
+}
+</script>
+	
+	<p>Arrows to move, spacebar to shoot, a to reset the asteroids, refresh the browser to restart the game.</p>
+	<hr>
+    <li><a href="index.html">Back To Index</a></li>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Asteroids</title>
+</head>
+
+<body bgcolor="#a0f0C0" onload="startGame()">
+
+	<center>
+
+	<canvas id="gameCanvas" width=800 height=500 />
+
+	</center>
+
+<script>
+var ship;
+var background;
+var bullet = new Array();
+var asteroid;
+
+var xpos;
+var ypos;
+var angleout;
+
+var score;
+var bNum = 0;
+
+function startGame() {
+    ship = new component(30, 30, "rocket2.png", 225, 225, "ship", 0);
+    background = new component(1920, 1024, "space2.jpg", -10, -10, "background", 0);    
+
+    myGameArea.start();
+}
+
+var myGameArea = {
+    canvas : document.getElementById("gameCanvas"),
+    start : function() {
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        window.addEventListener('keydown', function (e) {
+            e.preventDefault();
+            myGameArea.keys = (myGameArea.keys || []);
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
+        })
+        window.addEventListener('keyup', function (e) {
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
+        })
+    },
+    stop : function() {
+        clearInterval(this.interval);
+    },    
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(width, height, color, x, y, type, angle) 
+{
+	if (type == "ship" || type == "background") 
+	{
+        this.image = new Image();
+        this.image.src = color;
+    }
+    
+    this.type = type;
+    this.width = width;
+    this.height = height;
+    this.speed = 0;
+    this.angle = angle;
+    this.moveAngle = 0;
+    this.x = x;
+    this.y = y;    
+    this.update = function() 
+    {        
+        ctx = myGameArea.context;
+        if (this.type == "ship") 
+        {
+            ctx.save();
+                  
+   			ctx.translate(this.x, this.y);
+      
+			ctx.rotate(this.angle);
+			
+            ctx.drawImage(this.image, 
+                -15, 
+                -15,
+                this.width, this.height);
+
+			ctx.restore();
+		}
+		if (this.type == "background") 
+		{
+			ctx.drawImage(this.image, 
+				this.x, 
+				this.y,
+				this.width, this.height);
+		}
+    }
+    this.newPos = function() 
+    {
+        this.angle += this.moveAngle * Math.PI / 180;
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+}
+
+
+	window.addEventListener("keydown", function(e){
+		switch(e.keyCode)
+		{
+			case 37: // left arrow
+				ship.moveAngle = -2;
+				break;
+			case 38: // up arrow
+				ship.speed= 2;
+				break;
+			case 39: // right arrow
+				ship.moveAngle = 2;
+				break;
+			case 40: // down arrow
+				ship.speed= -2;
+				break;
+		}
+	}, false);
+
+	window.addEventListener("keyup", function(e){
+		switch(e.keyCode)
+		{
+			case 37: // left arrow
+				ship.moveAngle = 0;
+				break;
+			case 38: // up arrow
+				ship.speed= 0;
+				break;
+			case 39: // right arrow
+				ship.moveAngle = 0;
+				break;
+			case 40: // down arrow
+				ship.speed= 0;
+				break;
+			case 80: // key P pauses the game
+				//Game.togglePause();
+				break;		
+		}
+	}, false);
+	
+	
+function updateGameArea() {
+    myGameArea.clear();
+    
+//    ship.moveAngle = 0;
+//    ship.speed = 0;
+
+    //if (myGameArea.keys && myGameArea.keys[37]) {ship.moveAngle = -2;}
+    //if (myGameArea.keys && myGameArea.keys[39]) {ship.moveAngle = 2;}
+    //if (myGameArea.keys && myGameArea.keys[38]) {ship.speed= 2;}
+    //if (myGameArea.keys && myGameArea.keys[40]) {ship.speed= -2;}
+    //if (myGameArea.keys && myGameArea.keys[32]) 
+    //{
+	//	bullet[bNum] = new component(30, 30, "lAsteroid.png", ship.x, ship.y, "bullet", ship.angle);
+	//	bNum = bNum + 1;
+	//}
+    
+    background.newPos();
+    background.update();
+    
+    ship.newPos();
+    ship.update();
+
+}
+</script>
+	
+	<hr>
+    <li><a href="index.html">Back To Index</a></li>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

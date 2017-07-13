@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CS 261 examples</title>
+<style>
+div#whatsMyIPBody {
+    height: 600px;
+    width: 400px;
+    background-color: red;
+}
+</style>
+</head>
+
+<body bgcolor="#a0f0C0" onload="loadDoc()">
+
+	<center>
+
+	<div id="whatsMyIPBody">
+
+		<br><br><br><br><br>
+		
+		<p>Your IP is</p>
+		<div id="output2"></div><br>
+
+		<button type="button" onclick="loadDoc()">Refresh</button>
+
+	</div>
+	
+	</center>
+
+	<script>		
+		function loadDoc() 
+		{
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() 
+			{
+				if (this.readyState == 4 && this.status == 200) 
+				{				
+					obj = JSON.parse(this.responseText);
+					
+					document.getElementById("output2").innerHTML = "Your IP is " + obj.ip;		
+				}
+				else
+					document.getElementById("output2").innerHTML = "XMLHTTP ERROR" + ", status = " + this.status + ", readyState = " + this.readyState;					
+			};
+			xhttp.open("GET", "http://ip.jsontest.com/", true);
+			xhttp.send();
+		}
+	</script>
+	
+	<hr>
+    <li><a href="index.html">Back To Index</a></li>
+
+</body>
+</html>
